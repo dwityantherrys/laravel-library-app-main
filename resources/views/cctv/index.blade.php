@@ -4,16 +4,30 @@
             <div class="bg-white dark:bg-gray-800 shadow-sm">
                 <div class="py-2 text-gray-900 dark:text-gray-100">
                     <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center">CCTV Dashboard</h2>
-
+                    <!-- <img src="{{asset('img/logo.svg')}}" alt="Logo" height="75px"> -->
                     <!-- Button untuk Toggle Form Filter dan Search Input -->
-                    <div class="pl-4 pr-4 pb-4 flex justify-between items-center">
+                    <div class="pl-4 pr-4 pb-4 flex items-center">
                         <button id="toggle-filter-btn"
                             class="px-3 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700">Filter</button>
 
-                        <div class="flex-grow"></div> <!-- Space tengah -->
+                        <!-- Button untuk Export PDF -->
+                        <a href="{{ route('cctvs.exportPDF', request()->query()) }}"
+                            class="ml-4 px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">
+                            Export to PDF
+                        </a>
+
+                        <!-- Button untuk Export Excel -->
+                        <a href="{{ route('cctvs.exportExcel', request()->query()) }}"
+                            class="ml-4 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700">
+                            Export to Excel
+                        </a>
+
+
+                        <!-- Space untuk Search Fields -->
+                        <div class="flex-grow"></div>
 
                         <!-- Search Fields -->
-                        <form method="GET" action="{{ route('cctvs.index') }}" class="flex">
+                        <form method="GET" action="{{ route('cctvs.index') }}" class="flex items-center">
                             <input type="text" id="search" name="search" value="{{ request('search') }}"
                                 class="form-input py-1 mt-1 block w-full text-gray-900" placeholder="Search...">
                             <button type="submit"
@@ -98,11 +112,14 @@
                                     </tr>
                                 </thead>
                                 <tbody class="font-normal">
+                                    @php
+                                    $startNumber = ($cctvs->currentPage() - 1) * $cctvs->perPage() + 1;
+                                    @endphp
                                     @foreach($cctvs as $cctv)
                                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 {{ $cctv->fc_status === 'E' ? 'bg-orange-500 dark:hover:bg-orange-700' : '' }}"
                                         data-id="{{ $cctv->fc_id }}">
                                         <td class="px-6 py-4 whitespace-no-wrap border-gray-600 border-r">
-                                            {{ $loop->index + 1 }}
+                                            {{ $startNumber++ }}
                                         </td>
                                         @foreach(['fc_id_cctv', 'fv_divisi', 'fv_sys_type', 'fv_principle',
                                         'fv_branch_Name', 'fv_anydesk',
@@ -112,28 +129,34 @@
                                         'fc_serial', 'fc_user',
                                         'fc_password', 'fn_qty_cam', 'fc_region'] as $field)
 
-                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-200"
-                                            @if($field==='fc_user_it' ) style="min-width: 100px;" @endif>
+                                        <!-- Mask Data Container -->
+                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-200 masked-data"
+                                            data-field="{{ $field }}">
+                                            @if(in_array($field, ['fc_user_it', 'fc_password_it', 'fc_user_sysadm',
+                                            'fc_password_sysadm', 'fc_user', 'fc_password', 'fc_serial']))
+                                            <div class="mask-container" data-field="{{ $field }}">
+                                                <span class="masked-text">{{ $cctv->$field }}</span>
+                                            </div>
+                                            @else
                                             @if($field === 'fv_link_add')
                                             @php
                                             $link = $cctv->$field;
                                             $containsNexdist = strpos($link, '/nexdist') !== false;
                                             $containsHttp = strpos($link, 'http://') === 0;
-
-                                            // Jika link mengandung /nexdist dan tidak dimulai dengan http://, tambahkan
-                                            http://
                                             if ($containsNexdist && !$containsHttp) {
                                             $link = 'http://' . $link;
                                             }
                                             @endphp
                                             @if($containsNexdist)
-                                            <a href="{{ $link }}" class="text-blue-500 hover:underline"
+                                            <a href="{{ $link }}"
+                                                class="bg-slate-500 text-white py-2 px-2 rounded hover:bg-blue-900"
                                                 target="_blank">{{ $link }}</a>
                                             @else
                                             {{ $link }}
                                             @endif
                                             @else
                                             {{ $cctv->$field }}
+                                            @endif
                                             @endif
                                         </td>
                                         @endforeach
@@ -182,6 +205,20 @@
     </div>
 
     <script>
+        document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+});
+
+document.addEventListener('keydown', function(event) {
+    // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+    if (event.key === 'F12' || 
+        (event.ctrlKey && event.shiftKey && event.key === 'I') || 
+        (event.ctrlKey && event.key === 'U') || 
+        (event.ctrlKey && event.shiftKey && event.key === 'J')) {
+        event.preventDefault();
+    }
+});
+
     // Mengatur event double click pada baris tabel
     document.querySelectorAll('tr[data-id]').forEach(row => {
         row.addEventListener('dblclick', function() {
@@ -201,6 +238,52 @@
             filterForm.classList.add('filter-hidden');
         }
     });
+
+    function showMaskPopup(td, data) {
+        // Remove any existing pop-ups
+        const existingPopup = document.querySelector('.mask-popup');
+        if (existingPopup) existingPopup.remove();
+
+        // Create and show new pop-up
+        const popup = document.createElement('div');
+        popup.className = 'mask-popup';
+        popup.innerHTML = `
+        <input type="text" id="access-code" placeholder="Enter access code" />
+        <button onclick="validateAccessCode('${data}')">Submit</button>
+        <div class="error-message">Incorrect access code</div>
+    `;
+        document.body.appendChild(popup);
+        popup.style.display = 'block';
+        document.getElementById('access-code').focus();
+    }
+
+    function validateAccessCode(data) {
+        const accessCode = document.getElementById('access-code').value;
+        const correctCode = 'rmsit234'; // Replace with your access code
+        const popup = document.querySelector('.mask-popup');
+
+        if (accessCode === correctCode) {
+            popup.querySelector('.error-message').style.display = 'none';
+            document.querySelectorAll('.masked-data').forEach(td => {
+                if (td.dataset.field === data) {
+                    td.querySelector('.masked-text').style.color = 'white';
+                    td.querySelector('.masked-text').style.background = 'none';
+                }
+            });
+            popup.style.display = 'none';
+            setTimeout(() => popup.remove(), 1000);
+        } else {
+            popup.querySelector('.error-message').style.display = 'block';
+        }
+    }
+
+    // Attach click event to elements with class mask-container
+    document.querySelectorAll('.mask-container').forEach(element => {
+        element.addEventListener('click', function() {
+            const data = this.dataset.field;
+            showMaskPopup(this, data);
+        });
+    });
     </script>
 
     <style>
@@ -216,5 +299,71 @@
         width: 300px;
         /* Sesuaikan lebar sesuai kebutuhan */
     }
+
+    .masked-text {
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0);
+        /* Use transparent color to prevent showing */
+        border: 1px solid transparent;
+        padding: 2px 4px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* Indicate it's clickable */
+    }
+
+    .mask-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .mask-container:hover .masked-text {
+        color: rgba(0, 0, 0, 0);
+        /* Keep text hidden on hover */
+    }
+
+
+    .mask-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .mask-popup input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .mask-popup button {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .mask-popup button:hover {
+        background: #0056b3;
+    }
+
+    .mask-popup .error-message {
+        color: red;
+        display: none;
+    }
     </style>
 </x-app-layout>
+<!-- Pop-up (Initially hidden) -->
+<div class="mask-popup" style="display: none;">
+    <input type="text" id="access-code" placeholder="Enter access code" />
+    <button onclick="validateAccessCode()">Submit</button>
+    <div class="error-message">Incorrect access code</div>
+</div>

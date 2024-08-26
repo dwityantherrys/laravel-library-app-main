@@ -26,7 +26,7 @@ class Cctv extends Model
         'fv_principle',
         'fv_branch_Name',
         'fv_anydesk',
-        'fv_teamviever',
+        'fv_teamviewer',
         'fv_ultraviewer',
         'fv_link_add',
         'fv_link_temp',

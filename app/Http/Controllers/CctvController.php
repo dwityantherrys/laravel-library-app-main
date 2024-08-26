@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CctvsExport;
 
+// use Barryvdh\DomPDF\Facade as PDF;
+use \PDF;
 class CctvController extends Controller
 {
     public function index(Request $request): View
@@ -60,11 +65,11 @@ class CctvController extends Controller
     }
 
     // Ambil data dengan pagination
-    $cctvs = $query->paginate(1000);
+    $cctvs = $query->paginate(10);
 
     return view('cctv.index', ['cctvs' => $cctvs]);
 }
-
+    
     public function dashboard(): View
     {
         $cctv = Cctv::all();
@@ -74,7 +79,7 @@ class CctvController extends Controller
     public function create(): View
     {
         $provinces = [
-            'Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Bali','Banten', 'Nusa Tenggara Barat', 'Nusa Tenggara Timur',
+            'Jakarta','Jawa Barat', 'Jawa Tengah', 'Jawa Timur', 'Jogjakarta', 'Bali','Banten', 'Nusa Tenggara Barat', 'Nusa Tenggara Timur',
             'Kalimantan Barat', 'Kalimantan Tengah', 'Kalimantan Timur', 'Kalimantan Selatan', 'Sulawesi Utara',
             'Sulawesi Tengah', 'Sulawesi Selatan', 'Sulawesi Tenggara', 'Maluku', 'Maluku Utara', 'Papua', 'Papua Barat'
         ];
@@ -176,4 +181,121 @@ class CctvController extends Controller
 
         return Redirect::route('cctvs.index')->with('success', 'Data CCTV berhasil dihapus');
     }
+
+    public function exportPDF(Request $request)
+{
+    $query = Cctv::query();
+
+    // Filter berdasarkan divisi
+    if ($request->filled('fv_divisi')) {
+        $query->where('fv_divisi', $request->input('fv_divisi'));
+    }
+
+    // Filter berdasarkan principle
+    if ($request->filled('fv_principle')) {
+        $query->where('fv_principle', $request->input('fv_principle'));
+    }
+
+    // Filter berdasarkan systipe
+    if ($request->filled('fv_sys_type')) {
+        $query->where('fv_sys_type', $request->input('fv_sys_type'));
+    }
+
+    // Filter berdasarkan nama cabang
+    if ($request->filled('fv_branch_Name')) {
+        $query->where('fv_branch_Name', $request->input('fv_branch_Name'));
+    }
+
+    // // Filter berdasarkan region
+    // if ($request->filled('fc_region')) {
+    //     $query->where('fc_region', $request->input('fc_region'));
+    // }
+
+    // Filter berdasarkan status
+    if ($request->filled('fc_status')) {
+        $query->where('fc_status', $request->input('fc_status'));
+    }
+
+    // Filter pencarian umum
+    $search = $request->input('search');
+    if ($search) {
+        $query->where(function($q) use ($search) {
+            $q->Where('fv_divisi', 'like', "%{$search}%")
+            ->orWhere('fv_sys_type', 'like', "%{$search}%")
+            ->orWhere('fv_principle', 'like', "%{$search}%")
+            ->orWhere('fv_link_add', 'like', "%{$search}%")
+            ->orWhere('fv_anydesk', 'like', "%{$search}%")
+            // ->orWhere('fc_region', 'like', "%{$search}%")
+            ->orWhere('fv_branch_Name', 'like', "%{$search}%");
+        });
+    }
+
+    // Ambil data
+    $cctvs = $query->get();
+
+    // Generate PDF
+    $pdf = PDF::loadView('cctv.pdf', ['cctvs' => $cctvs]);
+
+    return $pdf->download('cctv_report.pdf');
+}
+
+public function exportExcel(Request $request)
+    {
+        return Excel::download(new CctvsExport($request), 'CCTV_Report.xlsx');
+    }
+
+// public function exportPDF(Request $request)
+// {
+//     $query = Cctv::query();
+
+//     // Filter berdasarkan divisi
+//     if ($request->filled('fv_divisi')) {
+//         $query->where('fv_divisi', $request->input('fv_divisi'));
+//     }
+
+//     // Filter berdasarkan principle
+//     if ($request->filled('fv_principle')) {
+//         $query->where('fv_principle', $request->input('fv_principle'));
+//     }
+
+//     // Filter berdasarkan systipe
+//     if ($request->filled('fv_sys_type')) {
+//         $query->where('fv_sys_type', $request->input('fv_sys_type'));
+//     }
+
+//     // Filter berdasarkan nama cabang
+//     if ($request->filled('fv_branch_Name')) {
+//         $query->where('fv_branch_Name', $request->input('fv_branch_Name'));
+//     }
+
+//     // Filter berdasarkan region
+//     if ($request->filled('fc_region')) {
+//         $query->where('fc_region', $request->input('fc_region'));
+//     }
+
+//     // Filter berdasarkan status
+//     if ($request->filled('fc_status')) {
+//         $query->where('fc_status', $request->input('fc_status'));
+//     }
+
+//     // Filter pencarian umum
+//     $search = $request->input('search');
+//     if ($search) {
+//         $query->where(function($q) use ($search) {
+//             $q->Where('fv_divisi', 'like', "%{$search}%")
+//             ->orWhere('fv_sys_type', 'like', "%{$search}%")
+//             ->orWhere('fv_principle', 'like', "%{$search}%")
+//             ->orWhere('fv_link_add', 'like', "%{$search}%")
+//             ->orWhere('fv_anydesk', 'like', "%{$search}%")
+//             ->orWhere('fc_region', 'like', "%{$search}%")
+//             ->orWhere('fv_branch_Name', 'like', "%{$search}%");
+//         });
+//     }
+
+//     // Ambil data
+//     $cctvs = $query->get();
+
+//     // Menampilkan halaman pdf.blade.php dengan data yang sudah difilter
+//     return view('cctv.pdf', ['cctvs' => $cctvs]);
+// }
 }

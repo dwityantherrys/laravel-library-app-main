@@ -98,15 +98,15 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label for="fv_teamviever"
+                                    <label for="fv_teamviewer"
                                         class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                         TeamViewer
                                     </label>
-                                    <input type="text" id="fv_teamviever" name="fv_teamviever"
-                                        value="{{ old('fv_teamviever', $cctv->fv_teamviever) }}"
+                                    <input type="text" id="fv_teamviewer" name="fv_teamviewer"
+                                        value="{{ old('fv_teamviewer', $cctv->fv_teamviewer) }}"
                                         class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
                                         placeholder="TeamViewer" />
-                                    @error('fv_teamviever')
+                                    @error('fv_teamviewer')
                                     <span class="text-red-600 text-sm">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -329,12 +329,12 @@
                                 <div class="mb-4" id="error-description" style="display: none;">
                                     <label for="fv_ket_error"
                                         class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        Keterangan error
+                                        Keterangan Tambahan
                                     </label>
                                     <input type="text" id="fv_ket_error" name="fv_ket_error"
                                         value="{{ old('fv_ket_error', $cctv->fv_ket_error) }}"
                                         class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
-                                        placeholder="Status HDD Ext" />
+                                        placeholder="Keterangan Tambahan" />
                                     @error('fv_ket_error')
                                     <span class="text-red-600 text-sm">{{ $message }}</span>
                                     @enderror
@@ -356,11 +356,25 @@
     </div>
     <!-- Inline JavaScript and CSS -->
     <script>
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(event) {
+        // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+        if (event.key === 'F12' ||
+            (event.ctrlKey && event.shiftKey && event.key === 'I') ||
+            (event.ctrlKey && event.key === 'U') ||
+            (event.ctrlKey && event.shiftKey && event.key === 'J')) {
+            event.preventDefault();
+        }
+    });
+
     function handleStatusChange() {
         var status = document.querySelector('input[name="fc_status"]:checked').value;
         var errorDescription = document.getElementById('error-description');
 
-        if (status === 'E') {
+        if (status === 'A' || status === 'E' || status === 'C') {
             errorDescription.style.display = 'block';
             // Optional: Add fade-in animation
             errorDescription.classList.add('fade-in');

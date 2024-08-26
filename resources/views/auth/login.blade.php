@@ -2,6 +2,15 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <!-- Display Error Message -->
+    @if ($errors->any())
+        <div class="mb-4 text-red-600">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -44,4 +53,21 @@
             </x-primary-button>
         </div>
     </form>
+
+    <script>
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+});
+
+document.addEventListener('keydown', function(event) {
+    // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+    if (event.key === 'F12' || 
+        (event.ctrlKey && event.shiftKey && event.key === 'I') || 
+        (event.ctrlKey && event.key === 'U') || 
+        (event.ctrlKey && event.shiftKey && event.key === 'J')) {
+        event.preventDefault();
+    }
+});
+
+    </script>
 </x-guest-layout>

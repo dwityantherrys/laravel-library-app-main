@@ -49,4 +49,20 @@
             </x-primary-button>
         </div>
     </form>
+    <script>
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+});
+
+document.addEventListener('keydown', function(event) {
+    // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+    if (event.key === 'F12' || 
+        (event.ctrlKey && event.shiftKey && event.key === 'I') || 
+        (event.ctrlKey && event.key === 'U') || 
+        (event.ctrlKey && event.shiftKey && event.key === 'J')) {
+        event.preventDefault();
+    }
+});
+
+    </script>
 </x-guest-layout>

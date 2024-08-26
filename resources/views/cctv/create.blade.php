@@ -15,150 +15,152 @@
                         <div class="text-center text-white font-bold text-xl mb-6">BRANCH</div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>ID</span>
-                                <input type="text" name="fc_id_cctv"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="ID" value="{{ old('fc_id_cctv') }}" />
-                            </label>
-                            @error('fc_id_cctv')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Division</span>
-                                <input type="text" name="fv_divisi"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Division" value="{{ old('fv_divisi') }}" />
-                            </label>
-                            @error('fv_divisi')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>System Type</span>
-                                <input type="text" name="fv_sys_type"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="System Type" value="{{ old('fv_sys_type') }}" />
-                            </label>
-                            @error('fv_sys_type')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Principle</span>
-                                <input type="text" name="fv_principle"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Principle Name" value="{{ old('fv_principle') }}" />
-                            </label>
-                            @error('fv_principle')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Nama Cabang</span>
-                                <input type="text" name="fv_branch_Name"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Nama Cabang" value="{{ old('fv_branch_Name') }}" />
-                            </label>
-                            @error('fv_branch_Name')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Anydesk</span>
-                                <input type="text" name="fv_anydesk"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Anydesk" value="{{ old('fv_anydesk') }}" />
-                            </label>
-                            @error('fv_anydesk')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Team Viewer</span>
-                                <input type="text" name="fv_teamviewer"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Team Viewer" value="{{ old('fv_teamviewer') }}" />
-                            </label>
-                            @error('fv_teamviewer')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Ultra Viewer</span>
-                                <input type="text" name="fv_ultraviewer"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Ultra Viewer" value="{{ old('fv_ultraviewer') }}" />
-                            </label>
-                            @error('fv_ultraviewer')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Link Address</span>
-                                <input type="text" name="fv_link_add"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Link Address" value="{{ old('fv_link_add') }}" />
-                            </label>
-                            @error('fv_link_add')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
-                            <label class="block">
-                                <span>Link Sementara</span>
-                                <input type="text" name="fv_link_temp"
-                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
-                                    placeholder="Link Sementara" value="{{ old('fv_link_temp') }}" />
-                            </label>
-                            @error('fv_link_temp')
-                            <div class="text-sm text-red-600">{{ $message }}</div>
-                            @enderror
-                            </div>
-                            </div>
-
-                            <div class="mb-6 text-gray-900 dark:text-gray-100">
                                 <label class="block">
-                                    <span>Region</span>
-                                    <select name="fc_region"
-                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900">
-                                        <option value="">Select a region</option>
-                                        @foreach ($provinces as $province)
-                                        <option value="{{ $province }}"
-                                            {{ old('fc_region') == $province ? 'selected' : '' }}>
-                                            {{ $province }}
-                                        </option>
-                                        @endforeach
-                                    </select>
+                                    <span>ID</span>
+                                    <input type="text" name="fc_id_cctv"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="ID" value="{{ old('fc_id_cctv') }}" />
                                 </label>
-                                @error('fc_region')
+                                @error('fc_id_cctv')
                                 <div class="text-sm text-red-600">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="text-center text-white font-bold text-xl mb-6">------------------------------------------------------------------------------------------------</div>
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Division</span>
+                                    <input type="text" name="fv_divisi"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Division" value="{{ old('fv_divisi') }}" />
+                                </label>
+                                @error('fv_divisi')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                            <div class="text-center text-white font-bold text-xl mb-6">USER IT</div>
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>System Type</span>
+                                    <input type="text" name="fv_sys_type"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="System Type" value="{{ old('fv_sys_type') }}" />
+                                </label>
+                                @error('fv_sys_type')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Principle</span>
+                                    <input type="text" name="fv_principle"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Principle Name" value="{{ old('fv_principle') }}" />
+                                </label>
+                                @error('fv_principle')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Nama Cabang</span>
+                                    <input type="text" name="fv_branch_Name"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Nama Cabang" value="{{ old('fv_branch_Name') }}" />
+                                </label>
+                                @error('fv_branch_Name')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Anydesk</span>
+                                    <input type="text" name="fv_anydesk"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Anydesk" value="{{ old('fv_anydesk') }}" />
+                                </label>
+                                @error('fv_anydesk')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Team Viewer</span>
+                                    <input type="text" name="fv_teamviewer"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Team Viewer" value="{{ old('fv_teamviewer') }}" />
+                                </label>
+                                @error('fv_teamviewer')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Ultra Viewer</span>
+                                    <input type="text" name="fv_ultraviewer"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Ultra Viewer" value="{{ old('fv_ultraviewer') }}" />
+                                </label>
+                                @error('fv_ultraviewer')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Link Address</span>
+                                    <input type="text" name="fv_link_add"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Link Address" value="{{ old('fv_link_add') }}" />
+                                </label>
+                                @error('fv_link_add')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6 text-gray-900 dark:text-gray-100">
+                                <label class="block">
+                                    <span>Link Sementara</span>
+                                    <input type="text" name="fv_link_temp"
+                                        class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900"
+                                        placeholder="Link Sementara" value="{{ old('fv_link_temp') }}" />
+                                </label>
+                                @error('fv_link_temp')
+                                <div class="text-sm text-red-600">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-6 text-gray-900 dark:text-gray-100">
+                            <label class="block">
+                                <span>Region</span>
+                                <select name="fc_region"
+                                    class="block w-full mt-1 rounded-md text-gray-900 dark:text-gray-900">
+                                    <option value="">Select a region</option>
+                                    @foreach ($provinces as $province)
+                                    <option value="{{ $province }}"
+                                        {{ old('fc_region') == $province ? 'selected' : '' }}>
+                                        {{ $province }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </label>
+                            @error('fc_region')
+                            <div class="text-sm text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="text-center text-white font-bold text-xl mb-6">
+                            ------------------------------------------------------------------------------------------------
+                        </div>
+
+                        <div class="text-center text-white font-bold text-xl mb-6">USER IT</div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
+
 
                             <div class="mb-6 text-gray-900 dark:text-gray-100">
                                 <label class="block">
@@ -184,12 +186,14 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="text-center text-white font-bold text-xl mb-6">------------------------------------------------------------------------------------------------</div>
+                        <div class="text-center text-white font-bold text-xl mb-6">
+                            ------------------------------------------------------------------------------------------------
+                        </div>
 
                         <div class="text-center text-white font-bold text-xl mb-6">USER SYSADM</div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
+
                             <div class="mb-6 text-gray-900 dark:text-gray-100">
                                 <label class="block">
                                     <span>User</span>
@@ -214,7 +218,9 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="text-center text-white font-bold text-xl mb-6">------------------------------------------------------------------------------------------------</div>
+                        <div class="text-center text-white font-bold text-xl mb-6">
+                            ------------------------------------------------------------------------------------------------
+                        </div>
 
                         <div class="text-center text-white font-bold text-xl mb-6">CCTV</div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -359,9 +365,9 @@
                             </div>
                         </div>
                     </form>
+                </div>
             </div>
         </div>
-    </div>
     </div>
     <script>
     function handleStatusChange() {
@@ -386,6 +392,20 @@
     // Event listeners for status change
     document.querySelectorAll('input[name="fc_status"]').forEach(radio => {
         radio.addEventListener('change', handleStatusChange);
+    });
+
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(event) {
+        // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+        if (event.key === 'F12' ||
+            (event.ctrlKey && event.shiftKey && event.key === 'I') ||
+            (event.ctrlKey && event.key === 'U') ||
+            (event.ctrlKey && event.shiftKey && event.key === 'J')) {
+            event.preventDefault();
+        }
     });
     </script>
 
