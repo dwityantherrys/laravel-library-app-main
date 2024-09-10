@@ -1,12 +1,12 @@
-# Laravel Library App
+# Laravel CCTV
 
-Laravel library app adalah sebuah aplikasi web yang memungkinkan pengguna untuk meminjam buku dari perpustakaan secara online dengan menggunakan framework Laravel. Aplikasi ini memiliki fitur autentikasi laravel, yaitu proses verifikasi identitas pengguna sebelum mengakses fitur-fitur tertentu. Salah satu fitur utama dari aplikasi ini adalah loan buku, yaitu fitur yang memungkinkan pengguna untuk memilih buku yang ingin dipinjam, melihat jumlah buku yang tersedia, dan mengembalikan buku sesuai dengan batas waktu yang ditentukan. Aplikasi ini juga menggunakan seeder dan factory untuk migrate database lebih mudah, serta menggunakan blade, alpinejs, dan tailwinds untuk tampilan antarmuka pengguna.
+Webiste untuk Sheet Data CCTV
 
 ## Instalasi
 
 Untuk menjalankan aplikasi ini, anda memerlukan:
 
-- PHP versi 8.0 atau lebih tinggi
+- PHP versi 8.2 atau lebih tinggi
 - Composer
 - MySQL
 - Node.js dan NPM

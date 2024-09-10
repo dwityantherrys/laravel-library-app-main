@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('fv_principle', 255);
             $table->string('fv_branch_Name', 255);
             $table->string('fv_anydesk', 255);
-            $table->string('fv_teamviever', 255);
+            $table->string('fv_teamviewer', 255);
             $table->string('fv_ultraviewer', 255);
             $table->string('fv_link_add', 255);
             $table->string('fv_link_temp', 255);

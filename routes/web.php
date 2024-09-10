@@ -3,8 +3,10 @@ use App\Http\Controllers\CctvController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\QrCodeController;
 
 // Redirect rute '/' ke '/login'
+// Route::get('/generate-qr-code', [QrCodeController::class, 'generateQrCodeWithLogo']);
 Route::get('/', function () {
     return redirect()->route('login');
 });
