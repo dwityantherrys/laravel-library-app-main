@@ -50,13 +50,15 @@ class CctvsExport implements FromCollection, WithDrawings, WithHeadings, WithCus
             'D' => 30,
             'E' => 30,
             'F' => 20,
+            'G' => 40,
+            
         ];
     }
 
     public function headings(): array
     {
         return [
-            'ID CCTV', 'Division', 'System Type', 'Principle', 'Branch Name', 'Status'
+            'ID CCTV', 'Division', 'System Type', 'Principle', 'Branch Name', 'Status','Error Deskripsi'
         ];
     }
 
@@ -84,7 +86,7 @@ class CctvsExport implements FromCollection, WithDrawings, WithHeadings, WithCus
     }
 
     // Ambil data dan ubah nilai fc_status
-    $data = $query->select('fc_id_cctv', 'fv_divisi', 'fv_sys_type', 'fv_principle', 'fv_branch_Name', 'fc_status')->get();
+    $data = $query->select('fc_id_cctv', 'fv_divisi', 'fv_sys_type', 'fv_principle', 'fv_branch_Name', 'fc_status','fv_ket_error')->get();
 
     // Map data untuk mengubah nilai status
     $data = $data->map(function($item) {
@@ -112,10 +114,10 @@ class CctvsExport implements FromCollection, WithDrawings, WithHeadings, WithCus
         $sheet->getColumnDimension('A')->setWidth(20);  
         $sheet->getRowDimension('3')->setRowHeight(30); 
 
-        $sheet->mergeCells('B1:F1');
+        $sheet->mergeCells('B1:G1');
         $sheet->setCellValue('B1', 'Laporan CCTV');
 
-        $sheet->getStyle('B1:F1')->applyFromArray([
+        $sheet->getStyle('B1:G1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 20,
@@ -136,6 +138,16 @@ class CctvsExport implements FromCollection, WithDrawings, WithHeadings, WithCus
                 'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
             ],
         ]);
+        $sheet->getStyle('G3')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'size' => 14,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+        ]);
     }
 
     public function registerEvents(): array
@@ -145,15 +157,16 @@ class CctvsExport implements FromCollection, WithDrawings, WithHeadings, WithCus
                 $sheet = $event->sheet->getDelegate();
                 $maxRow = $sheet->getHighestRow();
 
-                $sheet->getStyle("A4:A{$maxRow}")->applyFromArray([
+                $sheet->getStyle("A4:G{$maxRow}")->applyFromArray([
                     'alignment' => [
                         'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
                     ],
                 ]);
-
+                $sheet->getStyle("G4:G{$maxRow}")->getAlignment()->setWrapText(true);
                 // Menambahkan format tabel
-                $sheet->setAutoFilter('A3:F3');
-                $sheet->getStyle('A3:F'.$maxRow)->applyFromArray([
+                $sheet->setAutoFilter('A3:G3');
+                $sheet->getStyle('A3:G'.$maxRow)->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

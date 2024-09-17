@@ -3,7 +3,7 @@
         <div class="">
             <div class="bg-white dark:bg-gray-800 shadow-sm">
                 <div class="py-2 text-gray-900 dark:text-gray-100">
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center">CCTV Dashboard</h2>
+                    <h2 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 text-center">CCTV Dashboard</h2>
                     <!-- <img src="{{asset('img/logo.svg')}}" alt="Logo" height="75px"> -->
                     <!-- Button untuk Toggle Form Filter dan Search Input -->
                     <div class="pl-4 pr-4 pb-4 flex items-center">
@@ -31,7 +31,7 @@
                             <input type="text" id="search" name="search" value="{{ request('search') }}"
                                 class="form-input py-1 mt-1 block w-full text-gray-900" placeholder="Search...">
                             <button type="submit"
-                                class="ml-2 px-2 py-1 bg-blue-700 text-white rounded-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-800">Search</button>
+                                class="ml-2 px-3 py-1 bg-blue-700 text-white rounded-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-800">Search</button>
                         </form>
                     </div>
 
