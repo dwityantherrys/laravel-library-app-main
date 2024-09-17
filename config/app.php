@@ -166,6 +166,7 @@ return [
          */
         // Intervention\Image\ImageServiceProvider::class,
         // Intervention\Image\ImageServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
