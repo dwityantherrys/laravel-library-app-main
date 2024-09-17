@@ -2,11 +2,15 @@
 
 Webiste untuk Sheet Data CCTV
 
+![Alt text](Preview.png "Preview Login page")
+
+
+
 ## Instalasi
 
 ### Untuk menjalankan aplikasi ini, anda memerlukan:
 
-- PHP versi 8.2 atau lebih tinggi (Linux menggunkaan `Apache2`)
+- PHP versi 8.2 atau lebih tinggi (Linux menggunakan `Apache2`)
 - Composer Versi 2.7.8
 - MySQL
 - Node.js v20.11.1
