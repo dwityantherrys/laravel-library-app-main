@@ -59,6 +59,7 @@ Contohnya anda dapat login sebagai user dengan menggunakan email dan password be
 - Menambahkan Data baru untuk branch Baru
 - Mengedit isi Data
 - Delete Data 
+- Open Encrypted Data dengan Password `rmsit234`
 
 ## Lisensi
 Aplikasi ini dilisensikan di bawah NdoghIT.
