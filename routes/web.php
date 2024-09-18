@@ -32,6 +32,8 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\SingleSession::class
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/ping-test', [CctvController::class, 'pingTest']);
+
     // Logout Route
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

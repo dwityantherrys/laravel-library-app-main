@@ -28,7 +28,7 @@ Webiste untuk Sheet Data CCTV
 
 #### Setting Database di phpmyadmin dan Installasi Laravel
 
-1. Buat database baru dengan nama `rms_cctv`
+1. Buat database baru dengan nama `rms_cctv` di phpmyadmin
 2. Clone repositori ini ke direktori lokal anda dengan perintah `git clone https://github.com/username/laravel-library-app.git`
 3. Masuk ke direktori aplikasi dengan perintah `cd laravel-library-app`
 4. Jalankan perintah `composer install` untuk menginstal dependensi PHP
@@ -51,7 +51,7 @@ Setelah menjalankan server lokal, anda dapat mengakses aplikasi di http://localh
 Untuk sementara ini fitur user saja yang masih tersedia.
 Contohnya anda dapat login sebagai user dengan menggunakan email dan password berikut:
 
-- User: grovertheo@gmail.com / rmsit234
+- User: `grovertheo@gmail.com` / `rmsit234`
 
 ### Sebagai user, anda dapat melakukan hal-hal berikut:
 

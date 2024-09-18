@@ -11,10 +11,14 @@ use Illuminate\View\View;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CctvsExport;
+use Symfony\Component\Process\Process;
 
 // use Barryvdh\DomPDF\Facade as PDF;
 use \PDF;
 class CctvController extends Controller
+
+
+
 {
     public function index(Request $request): View
 {
@@ -298,4 +302,39 @@ public function exportExcel(Request $request)
 //     // Menampilkan halaman pdf.blade.php dengan data yang sudah difilter
 //     return view('cctv.pdf', ['cctvs' => $cctvs]);
 // }
+
+public function pingTest(Request $request){
+    $ip = $request->input('ip');
+
+    // Command untuk Windows: Ping 1 kali ke IP
+    $command =  "C:\\Windows\\System32\\ping -n 1 " . escapeshellarg($ip);
+
+    // Jalankan perintah ping melalui exec()
+    exec($command, $output, $result);
+
+    // Cek jika perintah berhasil
+    if ($result !== 0) {
+        return response()->json(['status' => 'error', 'message' => 'Server Down']);
+    }
+
+    // Cari waktu (ms) dari hasil ping, misalnya: "time=23ms"
+    foreach ($output as $line) {
+        if (preg_match('/time[=<]([\d]+)ms/', $line, $matches)) {
+            $pingTime = (int)$matches[1]; // Ambil nilai ping dalam ms
+            break;
+        }
+    }
+
+    // Jika tidak ada waktu ditemukan, berarti server down atau request timeout
+    if (!isset($pingTime)) {
+        return response()->json(['status' => 'error', 'message' => 'Timeout']);
+    }
+
+    // Kirim respon ke frontend
+    return response()->json([
+        'status' => 'success',
+        'ping' => $pingTime
+    ]);
+}
+
 }

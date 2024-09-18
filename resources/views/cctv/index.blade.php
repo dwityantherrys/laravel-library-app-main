@@ -109,6 +109,10 @@
                                             Actions
                                         </th>
                                         @endauth
+                                        <th
+                                            class="px-6 py-3 text-xs leading-4 tracking-wider text-left font-semibold text-gray-800 dark:text-gray-200 border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800">
+                                            Test Connection
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="font-normal">
@@ -137,6 +141,7 @@
                                             <div class="mask-container" data-field="{{ $field }}">
                                                 <span class="masked-text">{{ $cctv->$field }}</span>
                                             </div>
+
                                             @else
                                             @if($field === 'fv_link_add')
                                             @php
@@ -173,6 +178,7 @@
                                             style="min-width: 500px;">
                                             {{ $cctv->fv_ket_error }}
                                         </td>
+
                                         @auth
                                         <td class="px-6 py-4 border-gray-200">
                                             <a href="{{ route('cctvs.edit', $cctv->fc_id) }}"
@@ -186,6 +192,10 @@
                                             </form>
                                         </td>
                                         @endauth
+                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-200">
+                                            <button class="test-connection-btn bg-gray-500 text-white px-3 py-1 rounded"
+                                                data-ip="{{ $cctv->fv_link_add }}">Test</button>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -205,19 +215,19 @@
     </div>
 
     <script>
-        document.addEventListener('contextmenu', function(event) {
-    event.preventDefault();
-});
-
-document.addEventListener('keydown', function(event) {
-    // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
-    if (event.key === 'F12' || 
-        (event.ctrlKey && event.shiftKey && event.key === 'I') || 
-        (event.ctrlKey && event.key === 'U') || 
-        (event.ctrlKey && event.shiftKey && event.key === 'J')) {
+    document.addEventListener('contextmenu', function(event) {
         event.preventDefault();
-    }
-});
+    });
+
+    document.addEventListener('keydown', function(event) {
+        // Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+J
+        if (event.key === 'F12' ||
+            (event.ctrlKey && event.shiftKey && event.key === 'I') ||
+            (event.ctrlKey && event.key === 'U') ||
+            (event.ctrlKey && event.shiftKey && event.key === 'J')) {
+            event.preventDefault();
+        }
+    });
 
     // Mengatur event double click pada baris tabel
     document.querySelectorAll('tr[data-id]').forEach(row => {
@@ -282,6 +292,51 @@ document.addEventListener('keydown', function(event) {
         element.addEventListener('click', function() {
             const data = this.dataset.field;
             showMaskPopup(this, data);
+        });
+    });
+
+    //TEST ping
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.test-connection-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const ipAddress = this.getAttribute('data-ip');
+                const buttonElement = this;
+
+                // Set button state to testing
+                buttonElement.textContent = 'Testing...';
+                buttonElement.classList.remove('bg-gray-500', 'bg-green-500', 'bg-yellow-500');
+                buttonElement.classList.add('bg-blue-500');
+
+                // Perform AJAX request to backend for ping test
+                fetch(`/ping-test?ip=${ipAddress}`, {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.status === 'success') {
+                            console.log(data.output);
+                            if (data.ping < 100) {
+                                buttonElement.textContent = `Normal (${data.ping} ms)`;
+                                buttonElement.classList.remove('bg-blue-500');
+                                buttonElement.classList.add('bg-green-500');
+                            } else if (data.ping >= 100) {
+                                buttonElement.textContent = `Warning (${data.ping} ms)`;
+                                buttonElement.classList.remove('bg-blue-500');
+                                buttonElement.classList.add('bg-yellow-500');
+                            }
+                        } else {
+                            buttonElement.textContent = 'Server Down';
+                            buttonElement.classList.remove('bg-blue-500');
+                            buttonElement.classList.add('bg-purple-500');
+                        }
+                    })
+                    .catch(error => {
+                        buttonElement.textContent = 'Server Down';
+                        buttonElement.classList.remove('bg-blue-500');
+                        buttonElement.classList.add('bg-red-500');
+                    });
+            });
         });
     });
     </script>
