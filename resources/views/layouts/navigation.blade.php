@@ -6,7 +6,11 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
+<<<<<<< HEAD
                         <img src="{{ asset('img/logo-white.png') }}" alt="Logo" class="w-auto h-10" />
+=======
+                    <img src="{{ asset('img/logo-white.png') }}" alt="Logo" class="w-auto h-10" />
+>>>>>>> e80a2e3283e3d045f9c11d930ff2770df78808b1
                     </a>
                 </div>
 

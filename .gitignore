@@ -8,6 +8,7 @@
 /.phpunit.result.cache
 /.vscode
 /.idea
+/.env
 *.sublime-workspace
 *.sublime-project
 *.log
