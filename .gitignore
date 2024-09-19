@@ -5,8 +5,6 @@
 /storage/*.log
 /storage/app/public
 /vendor
-/.env
-/.env.*
 /.phpunit.result.cache
 /.vscode
 /.idea
