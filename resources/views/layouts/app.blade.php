@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-    <title>RMS CCTV</title>
+    <title>RMS IT</title>
 
     <script>
 document.addEventListener('contextmenu', function(event) {
