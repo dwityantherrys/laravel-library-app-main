@@ -61,5 +61,13 @@ Contohnya anda dapat login sebagai user dengan menggunakan email dan password be
 - Delete Data 
 - Open Encrypted Data dengan Password `rmsit234`
 
+
+## note
+- npm install tailwindcss postcss autoprefixer
+- npx tailwindcss init
+
+
+
+
 ## Lisensi
 Aplikasi ini dilisensikan di bawah NdoghIT.
