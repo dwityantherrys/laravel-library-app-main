@@ -9,6 +9,7 @@
 /.vscode
 /.idea
 /.env
+/vite.config.js
 *.sublime-workspace
 *.sublime-project
 *.log
