@@ -78,7 +78,7 @@
 
                     <!-- Kontainer scroll horizontal -->
 
-                    <div class="overflow-x-auto" style="max-height: 470px; overflow-y: auto;">
+                    <div class="overflow-x-auto" style="max-height: 70vh; height: 70vh; overflow-y: scroll; overflow-x: auto;">
                         <div style="min-width: 2000px;">
                             <table class="mx-auto text-gray-900 dark:text-gray-100">
                                 <thead>
@@ -421,6 +421,18 @@
     .mask-popup .error-message {
         color: red;
         display: none;
+    }
+
+    .overflow-x-auto::-webkit-scrollbar {
+        width: 10px; /* Lebar scrollbar */
+        height: 10px;
+    }
+    .overflow-x-auto::-webkit-scrollbar-thumb {
+        background-color: darkgray; /* Warna scrollbar */
+        border-radius: 10px; /* Sudut melengkung */
+    }
+    .overflow-x-auto::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Warna latar belakang scrollbar */
     }
     </style>
 </x-app-layout>
