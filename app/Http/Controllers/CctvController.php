@@ -69,7 +69,7 @@ class CctvController extends Controller
     }
 
     // Ambil data dengan pagination
-    $cctvs = $query->paginate(10);
+    $cctvs = $query->paginate(400);
 
     return view('cctv.index', ['cctvs' => $cctvs]);
 }
