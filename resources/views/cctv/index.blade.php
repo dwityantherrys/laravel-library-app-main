@@ -77,20 +77,16 @@
 
 
                     <!-- Kontainer scroll horizontal -->
-
-                    <div class="overflow-x-auto" style="max-height: 70vh; height: 70vh; overflow-y: scroll; overflow-x: auto;">
+                    <div class="overflow-x-auto"   style="max-height: 70vh; height: 70vh; overflow-y: scroll; overflow-x: auto;">
                         <div style="min-width: 2000px;">
                             <table class="mx-auto text-gray-900 dark:text-gray-100">
                                 <thead>
                                     <tr
                                         class="font-bold bg-gradient-to-r from-gray-200 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 shadow-lg">
-                                        @foreach(['fc_id' => 'No', 'fc_id_cctv' => 'ID CCTV', 'fv_divisi' =>
-                                        'DIVISI',
-                                        'fv_sys_type' => 'SYSTEM TYPE', 'fv_principle' => 'PRINCIPLE',
-                                        'fv_branch_Name'
+                                        @foreach(['fc_id' => 'No', 'fc_id_cctv' => 'ID CCTV', 'fv_divisi' => 'DIVISI',
+                                        'fv_sys_type' => 'SYSTEM TYPE', 'fv_principle' => 'PRINCIPLE', 'fv_branch_Name'
                                         => 'NAMA CABANG',
-                                        'fv_anydesk' => 'ANYDESK', 'fv_teamviewer' => 'TEAMVIEWER', 'fv_ultraviewer'
-                                        =>
+                                        'fv_anydesk' => 'ANYDESK', 'fv_teamviewer' => 'TEAMVIEWER', 'fv_ultraviewer' =>
                                         'ULTRAVIEWER',
                                         'fv_link_add' => 'LINK ADDRESS', 'fv_link_temp' => 'LINK SEMENTARA',
                                         'fc_user_it' => 'USER IT',
@@ -131,8 +127,7 @@
                                         </td>
                                         @foreach(['fc_id_cctv', 'fv_divisi', 'fv_sys_type', 'fv_principle',
                                         'fv_branch_Name', 'fv_anydesk',
-                                        'fv_teamviewer', 'fv_ultraviewer', 'fv_link_add', 'fv_link_temp',
-                                        'fc_user_it',
+                                        'fv_teamviewer', 'fv_ultraviewer', 'fv_link_add', 'fv_link_temp', 'fc_user_it',
                                         'fc_password_it',
                                         'fc_user_sysadm', 'fc_password_sysadm', 'fv_status_hdd_ext', 'fc_username',
                                         'fc_serial', 'fc_user',
@@ -210,7 +205,6 @@
 
 
 
-
                     <!-- Pagination -->
                     <div class="mt-4">
                         {{ $cctvs->links() }}
@@ -236,117 +230,115 @@
     });
 
     // Mengatur event double click pada baris tabel
-    document.querySelectorAll('tr[data-id]'
-            divorEach(row => {
-                row.addEventListener('dblclick', function() {
-                    const id = this.getAttribute('data-id');
-                    window.location.href = `/cctv/${id}/edit`;
-                });
-            });
+    document.querySelectorAll('tr[data-id]').forEach(row => {
+        row.addEventListener('dblclick', function() {
+            const id = this.getAttribute('data-id');
+            window.location.href = `/cctv/${id}/edit`;
+        });
+    });
 
-            // Menambahkan event listener untuk toggle filter form
-            document.getElementById('toggle-filter-btn').addEventListener('click', function() {
-                const filterForm = document.getElementById('filter-form');
-                if (filterForm.classList.contains('filter-hidden')) {
-                    filterForm.classList.remove('filter-hidden');
-                    filterForm.classList.add('filter-visible');
-                } else {
-                    filterForm.classList.remove('filter-visible');
-                    filterForm.classList.add('filter-hidden');
-                }
-            });
+    // Menambahkan event listener untuk toggle filter form
+    document.getElementById('toggle-filter-btn').addEventListener('click', function() {
+        const filterForm = document.getElementById('filter-form');
+        if (filterForm.classList.contains('filter-hidden')) {
+            filterForm.classList.remove('filter-hidden');
+            filterForm.classList.add('filter-visible');
+        } else {
+            filterForm.classList.remove('filter-visible');
+            filterForm.classList.add('filter-hidden');
+        }
+    });
 
-            function showMaskPopup(td, data) {
-                // Remove any existing pop-ups
-                const existingPopup = document.querySelector('.mask-popup');
-                if (existingPopup) existingPopup.remove();
+    function showMaskPopup(td, data) {
+        // Remove any existing pop-ups
+        const existingPopup = document.querySelector('.mask-popup');
+        if (existingPopup) existingPopup.remove();
 
-                // Create and show new pop-up
-                const popup = document.createElement('div');
-                popup.className = 'mask-popup';
-                popup.innerHTML = `
+        // Create and show new pop-up
+        const popup = document.createElement('div');
+        popup.className = 'mask-popup';
+        popup.innerHTML = `
         <input type="text" id="access-code" placeholder="Enter access code" />
         <button onclick="validateAccessCode('${data}')">Submit</button>
         <div class="error-message">Incorrect access code</div>
     `;
-                document.body.appendChild(popup);
-                popup.style.display = 'block';
-                document.getElementById('access-code').focus();
-            }
+        document.body.appendChild(popup);
+        popup.style.display = 'block';
+        document.getElementById('access-code').focus();
+    }
 
-            function validateAccessCode(data) {
-                const accessCode = document.getElementById('access-code').value;
-                const correctCode = 'rmsit234'; // Replace with your access code
-                const popup = document.querySelector('.mask-popup');
+    function validateAccessCode(data) {
+        const accessCode = document.getElementById('access-code').value;
+        const correctCode = 'rmsit234'; // Replace with your access code
+        const popup = document.querySelector('.mask-popup');
 
-                if (accessCode === correctCode) {
-                    popup.querySelector('.error-message').style.display = 'none';
-                    document.querySelectorAll('.masked-data').forEach(td => {
-                        if (td.dataset.field === data) {
-                            td.querySelector('.masked-text').style.color = 'white';
-                            td.querySelector('.masked-text').style.background = 'none';
-                        }
-                    });
-                    popup.style.display = 'none';
-                    setTimeout(() => popup.remove(), 1000);
-                } else {
-                    popup.querySelector('.error-message').style.display = 'block';
+        if (accessCode === correctCode) {
+            popup.querySelector('.error-message').style.display = 'none';
+            document.querySelectorAll('.masked-data').forEach(td => {
+                if (td.dataset.field === data) {
+                    td.querySelector('.masked-text').style.color = 'white';
+                    td.querySelector('.masked-text').style.background = 'none';
                 }
-            }
-
-            // Attach click event to elements with class mask-container
-            document.querySelectorAll('.mask-container').forEach(element => {
-                element.addEventListener('click', function() {
-                    const data = this.dataset.field;
-                    showMaskPopup(this, data);
-                });
             });
+            popup.style.display = 'none';
+            setTimeout(() => popup.remove(), 1000);
+        } else {
+            popup.querySelector('.error-message').style.display = 'block';
+        }
+    }
 
-            //TEST ping
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.test-connection-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const ipAddress = this.getAttribute('data-ip');
-                        const buttonElement = this;
+    // Attach click event to elements with class mask-container
+    document.querySelectorAll('.mask-container').forEach(element => {
+        element.addEventListener('click', function() {
+            const data = this.dataset.field;
+            showMaskPopup(this, data);
+        });
+    });
 
-                        // Set button state to testing
-                        buttonElement.textContent = 'Testing...';
-                        buttonElement.classList.remove('bg-gray-500', 'bg-green-500',
-                            'bg-yellow-500');
-                        buttonElement.classList.add('bg-blue-500');
+    //TEST ping
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.test-connection-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const ipAddress = this.getAttribute('data-ip');
+                const buttonElement = this;
 
-                        // Perform AJAX request to backend for ping test
-                        fetch(`/ping-test?ip=${ipAddress}`, {
-                                method: 'GET'
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                if (data.status === 'success') {
-                                    console.log(data.output);
-                                    if (data.ping < 100) {
-                                        buttonElement.textContent = `Normal (${data.ping} ms)`;
-                                        buttonElement.classList.remove('bg-blue-500');
-                                        buttonElement.classList.add('bg-green-500');
-                                    } else if (data.ping >= 100) {
-                                        buttonElement.textContent = `Warning (${data.ping} ms)`;
-                                        buttonElement.classList.remove('bg-blue-500');
-                                        buttonElement.classList.add('bg-yellow-500');
-                                    }
-                                } else {
-                                    buttonElement.textContent = 'Server Down';
-                                    buttonElement.classList.remove('bg-blue-500');
-                                    buttonElement.classList.add('bg-purple-500');
-                                }
-                            })
-                            .catch(error => {
-                                buttonElement.textContent = 'Server Down';
+                // Set button state to testing
+                buttonElement.textContent = 'Testing...';
+                buttonElement.classList.remove('bg-gray-500', 'bg-green-500', 'bg-yellow-500');
+                buttonElement.classList.add('bg-blue-500');
+
+                // Perform AJAX request to backend for ping test
+                fetch(`/ping-test?ip=${ipAddress}`, {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.status === 'success') {
+                            console.log(data.output);
+                            if (data.ping < 100) {
+                                buttonElement.textContent = `Normal (${data.ping} ms)`;
                                 buttonElement.classList.remove('bg-blue-500');
-                                buttonElement.classList.add('bg-red-500');
-                            });
+                                buttonElement.classList.add('bg-green-500');
+                            } else if (data.ping >= 100) {
+                                buttonElement.textContent = `Warning (${data.ping} ms)`;
+                                buttonElement.classList.remove('bg-blue-500');
+                                buttonElement.classList.add('bg-yellow-500');
+                            }
+                        } else {
+                            buttonElement.textContent = 'Server Down';
+                            buttonElement.classList.remove('bg-blue-500');
+                            buttonElement.classList.add('bg-purple-500');
+                        }
+                    })
+                    .catch(error => {
+                        buttonElement.textContent = 'Server Down';
+                        buttonElement.classList.remove('bg-blue-500');
+                        buttonElement.classList.add('bg-red-500');
                     });
-                });
             });
+        });
+    });
     </script>
 
     <style>
@@ -422,18 +414,26 @@
         color: red;
         display: none;
     }
-
     .overflow-x-auto::-webkit-scrollbar {
-        width: 10px; /* Lebar scrollbar */
-        height: 10px;
-    }
-    .overflow-x-auto::-webkit-scrollbar-thumb {
-        background-color: darkgray; /* Warna scrollbar */
-        border-radius: 10px; /* Sudut melengkung */
-    }
-    .overflow-x-auto::-webkit-scrollbar-track {
-        background: #f1f1f1; /* Warna latar belakang scrollbar */
-    }
+    width: 10px; /* Lebar scrollbar */
+    height: 10px; /* Tinggi scrollbar */
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background-color: orange; /* Warna scrollbar */
+    border-radius: 10px; /* Sudut melengkung */
+    border-color: Blue;
+    /* Ukuran thumb bisa disesuaikan */
+    height: 40px; /* Atur tinggi thumb */
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Warna latar belakang scrollbar */
+    border-radius: 10px; /* Sudut melengkung */
+    /* Berikan warna latar belakang yang lebih besar dari thumb untuk efek jarak */
+    margin-top: 5px; /* Margin atas */
+    margin-bottom: 5px; /* Margin bawah */
+}
     </style>
 </x-app-layout>
 <!-- Pop-up (Initially hidden) -->
