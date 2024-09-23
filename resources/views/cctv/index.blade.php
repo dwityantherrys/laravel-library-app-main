@@ -77,129 +77,137 @@
 
 
                     <!-- Kontainer scroll horizontal -->
-                    <div class="overflow-x-auto">
-                        <div style="min-width: 2000px;">
-                            <table class="mx-auto text-gray-900 dark:text-gray-100">
-                                <thead>
-                                    <tr
-                                        class="font-bold bg-gradient-to-r from-gray-200 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 shadow-lg">
-                                        @foreach(['fc_id' => 'No', 'fc_id_cctv' => 'ID CCTV', 'fv_divisi' => 'DIVISI',
-                                        'fv_sys_type' => 'SYSTEM TYPE', 'fv_principle' => 'PRINCIPLE', 'fv_branch_Name'
-                                        => 'NAMA CABANG',
-                                        'fv_anydesk' => 'ANYDESK', 'fv_teamviewer' => 'TEAMVIEWER', 'fv_ultraviewer' =>
-                                        'ULTRAVIEWER',
-                                        'fv_link_add' => 'LINK ADDRESS', 'fv_link_temp' => 'LINK SEMENTARA',
-                                        'fc_user_it' => 'USER IT',
-                                        'fc_password_it' => 'PASSWORD IT', 'fc_user_sysadm' => 'USER SYSADM',
-                                        'fc_password_sysadm' => 'PASSWORD SYSADM',
-                                        'fv_status_hdd_ext' => 'STATUS HDD EXT', 'fc_username' => 'USERNAME',
-                                        'fc_serial' => 'SERIAL',
-                                        'fc_user' => 'USER', 'fc_password' => 'PASSWORD', 'fn_qty_cam' => 'JUMLAH
-                                        KAMERA', 'fc_region' => 'Region',
-                                        'fc_status' => 'Status', 'fv_ket_error' => 'ERROR DESKRIPSI'] as $field =>
-                                        $title)
-                                        <th class="px-6 py-3 text-xs leading-4 tracking-wider text-left font-semibold text-gray-800 dark:text-gray-200 border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800
+                    <div class="sticky-scrollbar">
+                        <div class="overflow-x-auto">
+                            <div style="min-width: 2000px;">
+                                <table class="mx-auto text-gray-900 dark:text-gray-100">
+                                    <thead>
+                                        <tr
+                                            class="font-bold bg-gradient-to-r from-gray-200 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-gray-700 shadow-lg">
+                                            @foreach(['fc_id' => 'No', 'fc_id_cctv' => 'ID CCTV', 'fv_divisi' =>
+                                            'DIVISI',
+                                            'fv_sys_type' => 'SYSTEM TYPE', 'fv_principle' => 'PRINCIPLE',
+                                            'fv_branch_Name'
+                                            => 'NAMA CABANG',
+                                            'fv_anydesk' => 'ANYDESK', 'fv_teamviewer' => 'TEAMVIEWER', 'fv_ultraviewer'
+                                            =>
+                                            'ULTRAVIEWER',
+                                            'fv_link_add' => 'LINK ADDRESS', 'fv_link_temp' => 'LINK SEMENTARA',
+                                            'fc_user_it' => 'USER IT',
+                                            'fc_password_it' => 'PASSWORD IT', 'fc_user_sysadm' => 'USER SYSADM',
+                                            'fc_password_sysadm' => 'PASSWORD SYSADM',
+                                            'fv_status_hdd_ext' => 'STATUS HDD EXT', 'fc_username' => 'USERNAME',
+                                            'fc_serial' => 'SERIAL',
+                                            'fc_user' => 'USER', 'fc_password' => 'PASSWORD', 'fn_qty_cam' => 'JUMLAH
+                                            KAMERA', 'fc_region' => 'Region',
+                                            'fc_status' => 'Status', 'fv_ket_error' => 'ERROR DESKRIPSI'] as $field =>
+                                            $title)
+                                            <th class="px-6 py-3 text-xs leading-4 tracking-wider text-left font-semibold text-gray-800 dark:text-gray-200 border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800
                         @if($field === 'fc_id') border-r @endif">
-                                            {{ $title }}
-                                        </th>
+                                                {{ $title }}
+                                            </th>
+                                            @endforeach
+                                            @auth
+                                            <th
+                                                class="px-6 py-3 text-xs leading-4 tracking-wider text-left font-semibold text-gray-800 dark:text-gray-200 border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800">
+                                                Actions
+                                            </th>
+                                            @endauth
+                                            <th
+                                                class="px-6 py-3 text-xs leading-4 tracking-wider text-left font-semibold text-gray-800 dark:text-gray-200 border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800">
+                                                Test Connection
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="font-normal">
+                                        @php
+                                        $startNumber = ($cctvs->currentPage() - 1) * $cctvs->perPage() + 1;
+                                        @endphp
+                                        @foreach($cctvs as $cctv)
+                                        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 {{ $cctv->fc_status === 'E' ? 'bg-orange-500 dark:hover:bg-orange-700' : '' }}"
+                                            data-id="{{ $cctv->fc_id }}">
+                                            <td class="px-6 py-4 whitespace-no-wrap border-gray-600 border-r">
+                                                {{ $startNumber++ }}
+                                            </td>
+                                            @foreach(['fc_id_cctv', 'fv_divisi', 'fv_sys_type', 'fv_principle',
+                                            'fv_branch_Name', 'fv_anydesk',
+                                            'fv_teamviewer', 'fv_ultraviewer', 'fv_link_add', 'fv_link_temp',
+                                            'fc_user_it',
+                                            'fc_password_it',
+                                            'fc_user_sysadm', 'fc_password_sysadm', 'fv_status_hdd_ext', 'fc_username',
+                                            'fc_serial', 'fc_user',
+                                            'fc_password', 'fn_qty_cam', 'fc_region'] as $field)
+
+                                            <!-- Mask Data Container -->
+                                            <td class="px-6 py-4 whitespace-no-wrap border-gray-200 masked-data"
+                                                data-field="{{ $field }}">
+                                                @if(in_array($field, ['fc_user_it', 'fc_password_it', 'fc_user_sysadm',
+                                                'fc_password_sysadm', 'fc_user', 'fc_password', 'fc_serial']))
+                                                <div class="mask-container" data-field="{{ $field }}">
+                                                    <span class="masked-text">{{ $cctv->$field }}</span>
+                                                </div>
+
+                                                @else
+                                                @if($field === 'fv_link_add')
+                                                @php
+                                                $link = $cctv->$field;
+                                                $containsNexdist = strpos($link, '/nexdist') !== false;
+                                                $containsHttp = strpos($link, 'http://') === 0;
+                                                if ($containsNexdist && !$containsHttp) {
+                                                $link = 'http://' . $link;
+                                                }
+                                                @endphp
+                                                @if($containsNexdist)
+                                                <a href="{{ $link }}"
+                                                    class="bg-slate-500 text-white py-2 px-2 rounded hover:bg-blue-900"
+                                                    target="_blank">{{ $link }}</a>
+                                                @else
+                                                {{ $link }}
+                                                @endif
+                                                @else
+                                                {{ $cctv->$field }}
+                                                @endif
+                                                @endif
+                                            </td>
+                                            @endforeach
+                                            <td class="px-6 py-4 whitespace-no-wrap border-gray-200">
+                                                @if($cctv->fc_status === 'A')
+                                                <button
+                                                    class="bg-green-500 text-white px-3 py-1 rounded">Normal</button>
+                                                @elseif($cctv->fc_status === 'E')
+                                                <button class="bg-red-600 text-white px-3 py-1 rounded">Error</button>
+                                                @elseif($cctv->fc_status === 'C')
+                                                <button class="bg-gray-500 text-white px-3 py-1 rounded">Closed</button>
+                                                @endif
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-gray-200"
+                                                style="min-width: 500px;">
+                                                {{ $cctv->fv_ket_error }}
+                                            </td>
+
+                                            @auth
+                                            <td class="px-6 py-4 border-gray-200">
+                                                <a href="{{ route('cctvs.edit', $cctv->fc_id) }}"
+                                                    class="text-white hover:bg-gray-800 bg-gray-600 px-3 py-1 rounded">Edit</a>
+                                                <form action="{{ route('cctvs.destroy', $cctv->fc_id) }}" method="POST"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-white hover:bg-red-800 bg-red-600 px-3 py-1 rounded mt-2">Delete</button>
+                                                </form>
+                                            </td>
+                                            @endauth
+                                            <td class="px-6 py-4 whitespace-no-wrap border-gray-200">
+                                                <button
+                                                    class="test-connection-btn bg-gray-500 text-white px-3 py-1 rounded"
+                                                    data-ip="{{ $cctv->fv_link_add }}">Test</button>
+                                            </td>
+                                        </tr>
                                         @endforeach
-                                        @auth
-                                        <th
-                                            class="px-6 py-3 text-xs leading-4 tracking-wider text-left font-semibold text-gray-800 dark:text-gray-200 border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800">
-                                            Actions
-                                        </th>
-                                        @endauth
-                                        <th
-                                            class="px-6 py-3 text-xs leading-4 tracking-wider text-left font-semibold text-gray-800 dark:text-gray-200 border-b-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800">
-                                            Test Connection
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="font-normal">
-                                    @php
-                                    $startNumber = ($cctvs->currentPage() - 1) * $cctvs->perPage() + 1;
-                                    @endphp
-                                    @foreach($cctvs as $cctv)
-                                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 {{ $cctv->fc_status === 'E' ? 'bg-orange-500 dark:hover:bg-orange-700' : '' }}"
-                                        data-id="{{ $cctv->fc_id }}">
-                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-600 border-r">
-                                            {{ $startNumber++ }}
-                                        </td>
-                                        @foreach(['fc_id_cctv', 'fv_divisi', 'fv_sys_type', 'fv_principle',
-                                        'fv_branch_Name', 'fv_anydesk',
-                                        'fv_teamviewer', 'fv_ultraviewer', 'fv_link_add', 'fv_link_temp', 'fc_user_it',
-                                        'fc_password_it',
-                                        'fc_user_sysadm', 'fc_password_sysadm', 'fv_status_hdd_ext', 'fc_username',
-                                        'fc_serial', 'fc_user',
-                                        'fc_password', 'fn_qty_cam', 'fc_region'] as $field)
-
-                                        <!-- Mask Data Container -->
-                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-200 masked-data"
-                                            data-field="{{ $field }}">
-                                            @if(in_array($field, ['fc_user_it', 'fc_password_it', 'fc_user_sysadm',
-                                            'fc_password_sysadm', 'fc_user', 'fc_password', 'fc_serial']))
-                                            <div class="mask-container" data-field="{{ $field }}">
-                                                <span class="masked-text">{{ $cctv->$field }}</span>
-                                            </div>
-
-                                            @else
-                                            @if($field === 'fv_link_add')
-                                            @php
-                                            $link = $cctv->$field;
-                                            $containsNexdist = strpos($link, '/nexdist') !== false;
-                                            $containsHttp = strpos($link, 'http://') === 0;
-                                            if ($containsNexdist && !$containsHttp) {
-                                            $link = 'http://' . $link;
-                                            }
-                                            @endphp
-                                            @if($containsNexdist)
-                                            <a href="{{ $link }}"
-                                                class="bg-slate-500 text-white py-2 px-2 rounded hover:bg-blue-900"
-                                                target="_blank">{{ $link }}</a>
-                                            @else
-                                            {{ $link }}
-                                            @endif
-                                            @else
-                                            {{ $cctv->$field }}
-                                            @endif
-                                            @endif
-                                        </td>
-                                        @endforeach
-                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-200">
-                                            @if($cctv->fc_status === 'A')
-                                            <button class="bg-green-500 text-white px-3 py-1 rounded">Normal</button>
-                                            @elseif($cctv->fc_status === 'E')
-                                            <button class="bg-red-600 text-white px-3 py-1 rounded">Error</button>
-                                            @elseif($cctv->fc_status === 'C')
-                                            <button class="bg-gray-500 text-white px-3 py-1 rounded">Closed</button>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-200"
-                                            style="min-width: 500px;">
-                                            {{ $cctv->fv_ket_error }}
-                                        </td>
-
-                                        @auth
-                                        <td class="px-6 py-4 border-gray-200">
-                                            <a href="{{ route('cctvs.edit', $cctv->fc_id) }}"
-                                                class="text-white hover:bg-gray-800 bg-gray-600 px-3 py-1 rounded">Edit</a>
-                                            <form action="{{ route('cctvs.destroy', $cctv->fc_id) }}" method="POST"
-                                                class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-white hover:bg-red-800 bg-red-600 px-3 py-1 rounded mt-2">Delete</button>
-                                            </form>
-                                        </td>
-                                        @endauth
-                                        <td class="px-6 py-4 whitespace-no-wrap border-gray-200">
-                                            <button class="test-connection-btn bg-gray-500 text-white px-3 py-1 rounded"
-                                                data-ip="{{ $cctv->fv_link_add }}">Test</button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -413,6 +421,19 @@
     .mask-popup .error-message {
         color: red;
         display: none;
+    }
+
+    .sticky-scrollbar {
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        /* Pastikan scrollbar di atas konten lainnya */
+        background-color: white;
+        /* Sesuaikan dengan background halaman */
+        padding: 5px 0;
+        /* Tambahkan padding untuk membuat ruang di sekitar scrollbar */
+        box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+        /* Beri bayangan untuk memisahkan scrollbar dari konten */
     }
     </style>
 </x-app-layout>
